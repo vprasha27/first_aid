@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+
+
+
+
+
+
+<body>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="http://localhost:2000/registration" role="tab" aria-controls="profile" aria-selected="false">PayRoll</a>
+        </li>
+        </li>
+                <li class ="nav-item active">
+                    <a id = "userlink" class ="nav-link" href="#">Username</a>
+                </li>
+                <li class ="nav-item active">
+                    <a id="signoutlink" class ="nav-link" href="#">Sign out</a>
+                </li>
+            </ul>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+      </div>
+
+      <h5 id = "hh"></h5><br><br>
+     
+      <p>Designation</p>
+       <p id = "info"></p><br><br>
+
+       <p>Hourly Rate in $</p>
+       <p id = "pay"></p>
+
+       <p>Status</p>
+       <p id = "status"></p>
+
+  
+
+    
+</body>
+
+<script>
+
+let userlink = document.getElementById('userlink');
+let signoutlink = document.getElementById('signoutlink');
+let header = document.getElementById('hh');
+let infor = document.getElementById('info');
+let wage = document.getElementById('pay');
+let stat = document.getElementById('status');
+
+
+
+
+var currentUser = null;
+
+function getUsername(){
+
+    let keepLoggedIn = localStorage.getItem("keepLoggedIn");
+    if(keepLoggedIn == "yes"){
+        currentUser = JSON.parse(localStorage.getItem('user'))
+
+
+    }
+else{
+
+currentUser = JSON.parse(sessionStorage.getItem('user'));
+
+}
+}
+
+function Signout(){
+    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
+    localStorage.removeItem('keepLoggedIn');
+    window.location = "http://localhost:2000/login";
+
+
+}
+window.onload = function(){
+getUsername();
+if(currentUser == null){
+    userlink.innerText = "Create a new Account" ;
+    userlink.classList.replace("nav-link", "btn");
+    userlink.classList.add("btn-primary");
+    userlink.href = "http://localhost:2000/signup";
+
+    signoutlink.innerText = "Login";
+    signoutlink.classList.replace("nav-link", "btn");
+    signoutlink.classList.add("btn-success");
+    signoutlink.href = "http://localhost:2000/login";
+
+}
+else{
+
+    userlink.innerText = currentUser.username;
+    header.innerText = "Welcome" +  currentUser.fullname;
+    infor.innerText = currentUser.designationu;
+    wage.innerText = currentUser.payu;
+    stat.innerText = currentUser.statusu;
+
+
+
+    userlink.classList.replace("btn", "nav-link");
+    userlink.classList.add("btn-primary");
+    userlink.href = "#";
+
+
+    signoutlink.innerText = "Signout";
+    signoutlink.classList.replace("btn" ,"nav-link");
+    signoutlink.classList.add("btn-success");
+    signoutlink.href = "javascript:Signout()";
+
+}
+
+}
+
+
+
+
+
+
+</script>
+</html>
